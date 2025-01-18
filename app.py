@@ -4,13 +4,13 @@ from PyQt5.QtWidgets import (
         QHBoxLayout, QVBoxLayout,
         QPushButton, QLabel, QFileDialog
 )
-
 from qss import QSS
 import os
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PIL import Image
+from PIL import ImageFilter
 
 
 app = QApplication([])
@@ -118,6 +118,44 @@ class ImageProcessor:
 
 
 
+
+    def do_left(self):
+        self.image = self.Image.transpose(Image.ROTATE_90)
+        self.saveImage()
+        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        self.showImage(image_path)
+
+    def do_right(self):
+        self.image = self.Image.transpose(Image.ROTATE_270)
+        self.saveImage()
+        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        self.showImage(image_path)
+
+    def do_flip(self):
+        self.image = self.Image.transpose(Image.FLIP_LEFT_RIGHT)
+        self.saveImage()
+        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        self.showImage(image_path)
+
+    def do_sharpen(self):
+        self.image = self.Image.filter(ImageFilter.SHARPEN)
+        self.saveImage()
+        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        self.showImage(image_path)
+
+    def add_texture(self):
+        texture = Image.open('lights/pink.png')
+        width, height = self.image.size
+        texture = texture.resize((width, height))
+        self.image.paste(texture, (0, 0), texture)
+
+        self.seveImage()
+        image_path = os.path.join(workdir, self.save_dir, self.filename)
+
+        self.showImage(image_path)
+
+
+
 def showChosenImage():
     if lw_files.currentRow() >= 0:
         filename = lw_files.currentItem().text()
@@ -127,11 +165,21 @@ def showChosenImage():
 
 
 btn_dir.clicked.connect(showFilenamesList)
-
 workimage = ImageProcessor()
+
 
 lw_files.currentRowChanged.connect(showChosenImage)
 btn_bw.clicked.connect(workimage.do_bw)
+btn_left.clicked.connect(workimage.do_left)
+btn_right.clicked.connect(workimage.do_right)
+btn_sharp.clicked.connect(workimage.do_sharpen)
+btn_flip.clicked.connect(workimage.do_flip)
+#btn_texture.clicked.connect(workimage.add_texture)
+
+
+
+
+app.exec()
 
 
 

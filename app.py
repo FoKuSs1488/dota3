@@ -31,7 +31,7 @@ btn_right = QPushButton("Управо")
 btn_flip = QPushButton("Дзеркало")
 btn_sharp = QPushButton("Різкість")
 btn_bw = QPushButton("Ч/Б")
-
+btn_frame = QPushButton("Рамка")
 
 row = QHBoxLayout()          # Основний рядок
 col1 = QVBoxLayout()         # ділиться на два стовпці
@@ -45,6 +45,7 @@ row_tools.addWidget(btn_right)
 row_tools.addWidget(btn_flip)
 row_tools.addWidget(btn_sharp)
 row_tools.addWidget(btn_bw)
+row_tools.addWidget(btn_frame)
 col2.addLayout(row_tools)
 
 
@@ -91,7 +92,7 @@ class ImageProcessor:
         self.dir = dir
         self.filename = filename
         image_path = os.path.join(dir, filename)
-        self.image - Image.open(image_path)
+        self.image = Image.open(image_path)
 
 
     def saveImage(self):
@@ -108,48 +109,48 @@ class ImageProcessor:
         w,h = lb_image.width(), lb_image.height()
         pixmapimage = pixmapimage.scaled(w, h, Qt.KeepAspectRatio)
         lb_image.setPixmap(pixmapimage)
-        lb_image.swoh()
+        lb_image.show()
 
     def do_bw(self):
-        self.image = self.Image.convert('L')
+        self.image = self.image.convert('L')
         self.saveImage()
-        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        image_path  = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
 
 
 
     def do_left(self):
-        self.image = self.Image.transpose(Image.ROTATE_90)
+        self.image = self.image.transpose(Image.ROTATE_90)
         self.saveImage()
-        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        image_path  = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
     def do_right(self):
-        self.image = self.Image.transpose(Image.ROTATE_270)
+        self.image = self.image.transpose(Image.ROTATE_270)
         self.saveImage()
-        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        image_path = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
     def do_flip(self):
-        self.image = self.Image.transpose(Image.FLIP_LEFT_RIGHT)
+        self.image = self.image.transpose(Image.FLIP_LEFT_RIGHT)
         self.saveImage()
-        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        image_path = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
     def do_sharpen(self):
-        self.image = self.Image.filter(ImageFilter.SHARPEN)
+        self.image = self.image.filter(ImageFilter.SHARPEN)
         self.saveImage()
-        image_path = os.path = os.join(self.dir, self.save_dir, self.filename)
+        image_path  = os.path.join(self.dir, self.save_dir, self.filename)
         self.showImage(image_path)
 
     def add_texture(self):
-        texture = Image.open('lights/pink.png')
+        texture = Image.open('aaaaa.png')
         width, height = self.image.size
         texture = texture.resize((width, height))
         self.image.paste(texture, (0, 0), texture)
 
-        self.seveImage()
+        self.saveImage()
         image_path = os.path.join(workdir, self.save_dir, self.filename)
 
         self.showImage(image_path)
@@ -174,7 +175,7 @@ btn_left.clicked.connect(workimage.do_left)
 btn_right.clicked.connect(workimage.do_right)
 btn_sharp.clicked.connect(workimage.do_sharpen)
 btn_flip.clicked.connect(workimage.do_flip)
-#btn_texture.clicked.connect(workimage.add_texture)
+btn_frame.clicked.connect(workimage.add_texture)
 
 
 
